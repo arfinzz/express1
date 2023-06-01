@@ -1,15 +1,20 @@
 const express=require('express');
+const bodyParser=require('body-parser');
 
 const app=express();
 
-app.use((req,res,next)=>{
-    console.log("Inside 1st Middleware");
-    next();
+
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.use('/add-product',(req,res,next)=>{
+    res.send(`<form action="/product" method="POST"><input type="text" placeholder="Product Name" name="product"></input><input type="number" placeholder="Size" name="size"></input><button type="submit">Submit</button></form>`);
+    
 });
 
-app.use((req,res,next)=>{
-    console.log("Inside 2nd Middleware");
-    res.send("<h1>Hello world</h1>");
+app.use('/product',(req,res,next)=>{
+   
+    console.log(req.body);
+    
 });
 
 
