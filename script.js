@@ -1,21 +1,24 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 
+const adminRoutes=require("./routes/admin");
+const storeRoutes=require("./routes/store");
+
 const app=express();
 
 
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.use('/add-product',(req,res,next)=>{
-    res.send(`<form action="/product" method="POST"><input type="text" placeholder="Product Name" name="product"></input><input type="number" placeholder="Size" name="size"></input><button type="submit">Submit</button></form>`);
-    
-});
+app.use('/admin',adminRoutes);
 
-app.use('/product',(req,res,next)=>{
-   
-    console.log(req.body);
-    
-});
+app.use('/store',storeRoutes);
+
+
+app.use((req,res,next)=>{
+    res.status(404).send("<h1>Page Not Found</h1>");
+})
+
+
 
 
 app.listen(3000);
